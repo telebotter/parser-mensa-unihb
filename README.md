@@ -17,3 +17,8 @@ Da es über github mit dem ausführbaren code etwas schwierig zu werden droht,
 würde ich das script auf dem server ablegen, sobald der xml output gegeben ist
 (hab jetzt leider auf json gesetzt bevor ich das gelesen habe) und es dann
 unter sarbot.de/telebotter/parser/201 erreichbar machen.
+
+
+Nurnoch die daten in son xml template verpacken und dann als django mini app
+aufn server packen und url eintragen.. sollte übermorgen spätestens wieder
+laufen (also zu beginn der nächsten woche) 
