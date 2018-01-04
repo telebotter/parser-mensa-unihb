@@ -1,6 +1,11 @@
 # parser-mensa-unihb
 Ein kleines Script um Infos von den Studentenwerk Webseiten der Uni Mensen in Bremen auszulesen. In die Wege geleitet, da openmensa.org zum Start 2018 keinen funktionierenden parser am laufen hat.
 
+**ACHTUNG** Das nächstemal oder wenn mal zeit ist, vlt einfach darauf aufbauen,
+statt den karm selbst zu schreiben, vorallem die xml formatierung ist warsch
+einfacher:
+https://pyopenmensa.readthedocs.io/en/latest/
+
 # OpenMensaOrg Integration
 Das Konzept von OpenMensa ist einfach, die parser sind komplett ausgelagert und
 werden vom jeweiligen Entwickler des parsers bereitgestellt. Das heißt, wenn
@@ -22,3 +27,4 @@ unter sarbot.de/telebotter/parser/201 erreichbar machen.
 Nurnoch die daten in son xml template verpacken und dann als django mini app
 aufn server packen und url eintragen.. sollte übermorgen spätestens wieder
 laufen (also zu beginn der nächsten woche) 
+
