@@ -2,11 +2,25 @@ from bs4 import BeautifulSoup
 import requests
 import re  # instead of wildcards use regular expression to browse days
 import json
+import datetime as dt
+
+
+
+def get_date(offset):
+    # TODO: make this more elegant
+    d = dt.timedelta(days=1)
+    date = dt.datetime.today()
+    for i in range(offset):
+        date += d
+        if date.weekday() == 5:  # saturday
+            date += 2*d   
+    return date
 
 
 url = 'https://www.stw-bremen.de/de/essen-trinken/mensa-nw-1'
 # TODO: replace ids with a findall food-plan-* wildcard
 data = {}  # dict to store parsed data
+today = dt.date.today()
 
 s = requests.session() 
 r = s.get(url)  # get request from stw server
@@ -16,17 +30,13 @@ soup = BeautifulSoup(html, 'html.parser')  # source code parser
 days = soup.find_all(id=re.compile("^food-plan-"))
 #print(len(days))
 #for id in ids:  # for each day
-for day in days:
-    # TODO: parse date from table string or recalc from id?
-    # TODO: rename id to date or day or whatever?
-    id = day['id']
-    data[id] = {}  # init dict for each id
-    html_day = soup.find_all(id=id)  # array with code snippets for each day
-    if len(html_day) > 1: 
-        print('WARNING: more than one tags with id ' + id + 'found')
-    elif len(html_day) <1:
-        print('ERROR: no tags with id ' + id + 'found')
-    html_day = html_day[0]
+for html_day in days:
+    date_id = html_day['id']  # food-plan-3
+    workday_offset = int(date_id.split('-')[-1])
+    print(workday_offset)
+    date = get_date(workday_offset) 
+    date_str = dt.datetime.strftime(date, '%Y-%m-%d')
+    data[date_str] = {}  # init dict for each id
     # The information for each meal is stored in a seperate table with class
     # food-category, to get all categories (not hardcoded loop them)
     html_meals = html_day.find_all("table", "food-category")
@@ -51,10 +61,12 @@ for day in days:
         m['text'] = meal_text
         m['A'] = meal_price_a
         m['B'] = meal_price_b
-        data[id][category_name] = m
+        data[date_str][category_name] = m
 print(data)
 j = json.dumps(data, ensure_ascii=False)  # without s saves to file
 print(j)
 
 # eventuell musst du dir da noch n .encode('utf8') bzw. zum printen
 # .decode('utf8') dranhängen, wenn du utf8 nicht als default encoding hast
+
+
