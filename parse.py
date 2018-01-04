@@ -23,6 +23,7 @@ def get_date_from_id(table_id):
             date += 2*d   
     return date
 
+
 def open_mensa_xml(data_dict):
     """
     converts the data collected in a dictionary to an 
@@ -63,7 +64,7 @@ def open_mensa_xml(data_dict):
         ).decode('utf-8'))
 
 
-def main(url='https://www.stw-bremen.de/de/essen-trinken/mensa-nw-1'):
+def main(url='https://www.stw-bremen.de/de/essen-trinken/mensa-nw-1', out='xml'):
 
     # TODO: replace ids with a findall food-plan-* wildcard
     data = {}  # dict to store parsed data
@@ -113,6 +114,10 @@ def main(url='https://www.stw-bremen.de/de/essen-trinken/mensa-nw-1'):
     j = json.dumps(data, ensure_ascii=False)  # without s saves to file
     #print(j)
     x = open_mensa_xml(data)
+    if out == 'xml':
+        return x
+    elif out == 'json':
+        return j
 
 # eventuell musst du dir da noch n .encode('utf8') bzw. zum printen
 # .decode('utf8') dranhängen, wenn du utf8 nicht als default encoding hast
