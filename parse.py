@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import re  # instead of wildcards use regular expression to browse days
+import json
 
 
 url = 'https://www.stw-bremen.de/de/essen-trinken/mensa-nw-1'
@@ -52,4 +53,8 @@ for day in days:
         m['B'] = meal_price_b
         data[id][category_name] = m
 print(data)
-        
+j = json.dumps(data, ensure_ascii=False)  # without s saves to file
+print(j)
+
+# eventuell musst du dir da noch n .encode('utf8') bzw. zum printen
+# .decode('utf8') dranhängen, wenn du utf8 nicht als default encoding hast
