@@ -48,7 +48,7 @@ def open_mensa_xml(data_dict):
             x_name.text = data_dict[day][meal]["text"] #.replace('&amp;', '&')
             x_pa = etree.SubElement(x_mea, "price")
             x_pa.set('role', 'student')
-            x_pa.text = data_dict[day][meal]['A'].replace('€','')
+            x_pa.text = data_dict[day][meal]['A'].replace('&euro;','')
             x_pb = etree.SubElement(x_mea, "price")
             x_pb.set('role', 'employee')
             x_pb.text = data_dict[day][meal]['B'].replace('€','')
