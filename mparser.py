@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from pyopenmensa.feed import LazyBuilder
 from lxml import etree
 import requests
 import re  # instead of wildcards use regular expression to browse days
@@ -24,7 +25,7 @@ def get_date_from_id(table_id):
     return date
 
 
-def open_mensa_xml(data_dict):
+def open_mfensa_xml(data_dict):
     """
     converts the data collected in a dictionary to an 
     openmensa feed_v2 compatible xml-string
@@ -63,6 +64,8 @@ def open_mensa_xml(data_dict):
         ).decode('utf-8')
 
 
+    
+    
 def main(url='https://www.stw-bremen.de/de/essen-trinken/mensa-nw-1', out='xml'):
 
     # TODO: replace ids with a findall food-plan-* wildcard
@@ -73,6 +76,9 @@ def main(url='https://www.stw-bremen.de/de/essen-trinken/mensa-nw-1', out='xml')
     r = s.get(url)  # get request from stw server
     html = r.content  # the raw html code of the returned page
     soup = BeautifulSoup(html, 'html.parser')  # source code parser
+
+    canteen = LazyBuilder()
+
 
     days = soup.find_all(id=re.compile("^food-plan-"))
     #print(len(days))
@@ -109,12 +115,23 @@ def main(url='https://www.stw-bremen.de/de/essen-trinken/mensa-nw-1', out='xml')
             m['A'] = meal_price_a
             m['B'] = meal_price_b
             data[date_str][category_name] = m
+
+            #Use LazyBuilder:
+            canteen.addMeal(date.date(), 
+                    category_name, 
+                    meal_text, prices={'student': meal_price_a, 
+                        'other': meal_price_b})
+    om = canteen.toXMLFeed()
+
     #print(data)
     j = json.dumps(data, ensure_ascii=False)  # without s saves to file
     #print(j)
-    x = open_mensa_xml(data)
+
+
+
+
     if out == 'xml':
-        return x
+        return om
     elif out == 'json':
         return j
 
