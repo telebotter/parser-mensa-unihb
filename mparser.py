@@ -16,13 +16,34 @@ def get_date_from_id(table_id):
     :param table_id: <id> id-value in "food-plan-{id}"
     :return date: datetime object
     """
+    # TODO: mark cantine closed (pyom) for SA and SUN)
     d = dt.timedelta(days=1)
-    date = dt.datetime.today()
+    date = dt.date.today()
+    if date.weekday() == 5:
+        date += 2*d
+    elif date.weekday() == 6:
+        date += d
+
     for i in range(table_id):
         date += d
+        print(date.weekday())
         if date.weekday() == 5:  # saturday
-            date += 2*d   
+            print('sat.. skipping 2')
+            date += d   
+            date += d
+        elif date.weekday() == 6:
+            print('sun.. skipping 1')
+            date += d
     return date
+
+def get_date_from_string(d_string):
+    """
+    parse the given date string above the tabel
+    """
+    da = dt.date.today()
+    year = da.year()
+    s = "08. Jan"
+    return da
 
 
 def open_mfensa_xml(data_dict):
@@ -117,10 +138,10 @@ def main(url='https://www.stw-bremen.de/de/essen-trinken/mensa-nw-1', out='xml')
             data[date_str][category_name] = m
 
             #Use LazyBuilder:
-            canteen.addMeal(date.date(), 
+            canteen.addMeal(date, 
                     category_name, 
                     meal_text, prices={'student': meal_price_a, 
-                        'other': meal_price_b})
+                        'employee': meal_price_b})
     om = canteen.toXMLFeed()
 
     #print(data)
