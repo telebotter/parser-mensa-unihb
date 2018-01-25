@@ -1,10 +1,9 @@
+**ACHTUNG**
+Dies Repository wird nichtmehr gepflegt. Der parser läuft direkt auf dem Server. Bei Interesse an Mitarbeit eine kurze Nachricht, dann werde ich den aktuellen Code wieder auf GitHub zur Verfügung stellen...
+
 # parser-mensa-unihb
 Ein kleines Script um Infos von den Studentenwerk Webseiten der Uni Mensen in Bremen auszulesen. In die Wege geleitet, da openmensa.org zum Start 2018 keinen funktionierenden parser am laufen hat.
 
-**ACHTUNG** Das nächstemal oder wenn mal zeit ist, vlt einfach darauf aufbauen,
-statt den karm selbst zu schreiben, vorallem die xml formatierung ist warsch
-einfacher:
-https://pyopenmensa.readthedocs.io/en/latest/
 
 # OpenMensaOrg Integration
 Das Konzept von OpenMensa ist einfach, die parser sind komplett ausgelagert und
